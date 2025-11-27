@@ -1,0 +1,98 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #eeeeee;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Caixa principal */
+.caixa-principal {
+    background-color: #ffffff;
+    width: 360px;
+    padding: 15px;
+    border: 1px solid #999;
+    text-align: center;
+}
+
+/* Título "Blog" */
+.titulo-blog {
+    margin-bottom: 15px;
+    font-size: 22px;
+    color: #333;
+}
+
+/* Caixas das publicações */
+.publicacao {
+    border: 1px solid #005e99;
+    padding: 15px;
+    margin-bottom: 12px;
+    text-align: left;
+    background: #ffffff;
+}
+
+/* Marcador NÃO PUBLICADO */
+.marcador-nao-publicado {
+    background-color: #ff8d36;
+    color: white;
+    padding: 3px 7px;
+    border-radius: 3px;
+    font-size: 12px;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+/* Botões */
+.botoes {
+    display: flex;
+    margin-top: 10px;
+    justify-content: space-evenly;
+}
+
+.botao-alterar {
+    background-color: #4ea4e6;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.botao-excluir {
+    background-color: #c01416;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.botao-adicionar {
+    background-color: #4ea4e6;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+
+.rodape {
+    margin-top: 10px;
+    background-color: #646c77;
+    color: white;
+    padding: 6px;
+    font-size: 13px;
+    text-align: center;
+    width: 360px;
+    
+}
