@@ -1,3 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #eeeeee;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.caixa-principal {
+    background-color: #ffffff;
+    width: 360px;
+    padding: 15px;
+    border: 1px solid #999;
+    text-align: center;
+}
+
+.titulo-blog {
+    margin-bottom: 15px;
+    font-size: 22px;
+    color: #333;
+}
+
 /* Formulário de inclusão */
 .formulario {
     border: 1px solid #005e99;
@@ -45,4 +75,25 @@ label {
     border-radius: 8px;
     cursor: pointer;
     margin-top: 15px;
+}
+
+.botao-cancelar {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-left: 10px;
+}
+
+.rodape {
+    margin-top: 10px;
+    background-color: #646c77;
+    color: white;
+    padding: 6px;
+    font-size: 13px;
+    text-align: center;
+    width: 360px;
 }

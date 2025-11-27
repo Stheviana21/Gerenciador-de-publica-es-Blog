@@ -8,12 +8,11 @@ public class BlogController {
 
     @GetMapping("/")
     public String listaPublicacoes() {
-        return "lista-publicacoes.html";
+        return "index.html";
     }
 
     @GetMapping("/nova-publicacao")
     public String novaPublicacao() {
-        return "incluir-publicacao.html";
+        return "redirect:/addtexto.html";
     }
-
 }

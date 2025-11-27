@@ -2,10 +2,10 @@
 <html lang="pt-BR">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Incluir Publicação</title>
-<link rel="stylesheet" href="styletexto.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incluir Publicação</title>
+    <link rel="stylesheet" href="styletexto.css">
 </head>
 
 <body>
@@ -16,24 +16,24 @@
     <div class="formulario">
         <h3 class="titulo-formulario">Incluir nova publicação</h3>
 
-        <form>
-
+        <form id="form-publicacao">
             <label>Título</label>
-            <input type="text" class="campo">
+            <input type="text" class="campo" id="titulo" required>
 
             <label>Autor</label>
-            <input type="text" class="campo">
+            <input type="text" class="campo" id="autor" required>
 
             <label>Data de publicação</label>
-            <input type="date" class="campo">
+            <input type="date" class="campo" id="data" required>
+
 
             <label>Texto</label>
-            <textarea class="campo-texto"></textarea>
+            <textarea class="campo-texto" id="conteudo" required></textarea>
 
             <div class="centralizar">
-                <button class="botao-salvar">Salvar</button>
+                <button type="submit" class="botao-salvar">Salvar</button>
+                <button type="button" class="botao-cancelar" onclick="voltarParaLista()">Cancelar</button>
             </div>
-
         </form>
     </div>
 
@@ -42,6 +42,20 @@
 <footer class="rodape">
     Ana Julia Ferreira / Sthephany Viana / 3A / 2025 Noturno
 </footer>
+
+<script src="publicacaoService.js"></script>
+<script>
+    // Função para voltar para a lista
+    function voltarParaLista() {
+        window.location.href = 'index.html';
+    }
+
+    // Quando o formulário for enviado
+    document.getElementById('form-publicacao').addEventListener('submit', function(event) {
+        event.preventDefault(); // Impede o envio normal do formulário
+        salvarPublicacao(); // Chama a função de salvar
+    });
+</script>
 
 </body>
 </html>
