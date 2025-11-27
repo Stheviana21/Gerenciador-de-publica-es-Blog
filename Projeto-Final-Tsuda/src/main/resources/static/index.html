@@ -1,61 +1,29 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <div class="caixa-principal">
-        <h2 class="titulo-blog">Blog</h2>
+<div class="caixa-principal">
+    <h2 class="titulo-blog">Blog</h2>
 
-        <div class="publicacao">
-            <h3>Como viver bem</h3>
-            <p><strong>Autor:</strong> Fulano da Silva</p>
-            <p><strong>Publicado em:</strong> 31/10/2025</p>
-            <p>Veja neste texto dicas de como viver bem</p>
-
-            <div class="botoes">
-                 <a href="/nova-publicacao">
-                <button class="botao-alterar">Alterar</button>
-                 </a>
-                <button class="botao-excluir">Excluir</button>
-            </div>
-        </div>
-
-
-        <div class="publicacao">
-            <h3>20 Dicas para falar bem</h3>
-            <p><strong>Autor:</strong> Ciclano de Souza</p>
-            <p><strong>Publicado em:</strong> 02/12/2025</p>
-
-            <span class="marcador-nao-publicado">NÃO PUBLICADO</span>
-
-            <p>Aqui estão 20 dicas para você falar melhor em público</p>
-
-            <div class="botoes">
-                 <a href="/nova-publicacao">
-                <button class="botao-alterar">Alterar</button>
-                 </a>
-                <button class="botao-excluir">Excluir</button>
-            </div>
-        </div>
-
-        <a href="/nova-publicacao">
-            <button class="botao-adicionar">
-                Incluir nova publicação
-            </button>
-        </a>
+    <div id="lista-publicacoes">
+        <p>Carregando publicações...</p>
     </div>
 
-    <footer class="rodape">
-        Ana Julia Ferreira / Sthephany Viana / 3A / 2025 Noturno
-    </footer>
+    <a href="/nova-publicacao" class="botao-adicionar">
+        Incluir nova publicação
+    </a>
+</div>
 
+<footer class="rodape">
+    Ana Julia Ferreira / Sthephany Viana / 3A / 2025 Noturno
+</footer>
+
+<script src="publicacaoService.js"></script>
 </body>
-
 </html>

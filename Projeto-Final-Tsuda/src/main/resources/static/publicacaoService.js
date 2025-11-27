@@ -14,11 +14,15 @@ async function carregarPublicacoes() {
 
 // Função para salvar nova publicação
 async function salvarPublicacao() {
+    console.log('salvarPublicacao executando...');
+    
     // Pegar valores dos campos
     const titulo = document.getElementById('titulo').value;
     const autor = document.getElementById('autor').value;
     const data = document.getElementById('data').value;
     const conteudo = document.getElementById('conteudo').value;
+    
+    console.log('Dados a serem salvos:', { titulo, autor, data, conteudo });
     
     // Criar objeto da publicação
     const novaPublicacao = {
@@ -80,27 +84,22 @@ async function mostrarPublicacoes() {
         div.innerHTML = `
             <h3>${publicacao.titulo}</h3>
             <p><strong>Autor:</strong> ${publicacao.autor}</p>
-            <p><strong>Data:</strong> ${publicacao.dataPublicacao}</p>
+            <p><strong>Publicado em:</strong> ${publicacao.dataPublicacao}</p>
+            ${!publicacao.publicado ? '<span class="marcador-nao-publicado">NÃO PUBLICADO</span>' : ''}
             <p>${publicacao.conteudo}</p>
             <div class="botoes">
-                <button class="botao-alterar" onclick="editarPublicacao(${publicacao.id})">Alterar</button>
-                <button class="botao-excluir" onclick="excluirPublicacao(${publicacao.id})">Excluir</button>
+                <button class="botao-alterar" data-id="${publicacao.id}">Alterar</button>
+                <button class="botao-excluir" data-id="${publicacao.id}">Excluir</button>
             </div>
         `;
         container.appendChild(div);
     });
 }
 
-// Função para editar (por enquanto só redireciona)
+// Função para editar
 function editarPublicacao(id) {
-    alert('Editar publicação ' + id);
-    // Aqui você pode redirecionar para página de edição
-    // window.location.href = 'editar.html?id=' + id;
-}
-
-// Função para ir para página de adicionar
-function irParaAddTexto() {
-    window.location.href = 'addtexto.html';
+    alert('Editando publicação: ' + id);
+    // window.location.href = '/editar-publicacao?id=' + id;
 }
 
 // Função para voltar para lista
@@ -108,19 +107,32 @@ function voltarParaLista() {
     window.location.href = 'index.html';
 }
 
-// Quando a página carregar
-document.addEventListener('DOMContentLoaded', function() {
-    // Se estiver na página principal, mostrar publicações
-    if (document.getElementById('lista-publicacoes')) {
-        mostrarPublicacoes();
+// Event delegation para os botões - UMA VEZ só
+document.addEventListener('click', function(event) {
+    // Se clicou em botão excluir
+    if (event.target.classList.contains('botao-excluir')) {
+        const id = event.target.getAttribute('data-id');
+        excluirPublicacao(id);
     }
     
-    // Se estiver na página de adicionar, configurar o botão salvar
-    const form = document.getElementById('form-publicacao');
-    if (form) {
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            salvarPublicacao();
-        });
+    // Se clicou em botão alterar
+    if (event.target.classList.contains('botao-alterar')) {
+        const id = event.target.getAttribute('data-id');
+        editarPublicacao(id);
     }
 });
+
+// Event delegation para o formulário - UMA VEZ só
+document.addEventListener('submit', function(event) {
+    if (event.target.id === 'form-publicacao') {
+        event.preventDefault();
+        console.log('Formulário submetido (uma vez)');
+        salvarPublicacao();
+    }
+});
+
+// Carregamento inicial SIMPLES - sem DOMContentLoaded
+if (document.getElementById('lista-publicacoes')) {
+    console.log('Carregando publicações...');
+    mostrarPublicacoes();
+}
