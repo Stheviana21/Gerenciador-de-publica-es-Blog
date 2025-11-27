@@ -1,10 +1,10 @@
-// publicacoes.js
+
 
 const API_URL = 'http://localhost:8080/api/publicacoes';
 
 class PublicacaoService {
     
-    // Buscar todas as publicações
+    // Buscar as publicações
     async carregarPublicacoes() {
         try {
             const response = await fetch(API_URL);
@@ -18,7 +18,7 @@ class PublicacaoService {
         }
     }
     
-    // Criar nova publicação
+    //nova publicação
     async criarPublicacao(publicacao) {
         try {
             const response = await fetch(API_URL, {
@@ -99,7 +99,7 @@ async function carregarEExibirPublicacoes() {
     });
 }
 
-// Função para criar elemento HTML da publicação
+// Função para criar HTML da publicação
 function criarElementoPublicacao(publicacao, index) {
     const div = document.createElement('div');
     div.className = 'publicacao';
@@ -139,7 +139,8 @@ async function salvarPublicacao(event) {
     try {
         await publicacaoService.criarPublicacao(publicacao);
         alert('Publicação salva com sucesso!');
-        window.location.href = '/'; // Volta para a lista
+        window.location.href = '/'; 
+        // Volta para a lista
     } catch (error) {
         alert('Erro ao salvar publicação: ' + error.message);
     }

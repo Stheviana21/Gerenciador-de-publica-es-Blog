@@ -14,7 +14,7 @@ body {
     align-items: center;
 }
 
-/* Caixa principal */
+
 .caixa-principal {
     background-color: #ffffff;
     width: 360px;
@@ -23,14 +23,14 @@ body {
     text-align: center;
 }
 
-/* Título "Blog" */
+
 .titulo-blog {
     margin-bottom: 15px;
     font-size: 22px;
     color: #333;
 }
 
-/* Caixas das publicações */
+
 .publicacao {
     border: 1px solid #005e99;
     padding: 15px;
@@ -39,7 +39,7 @@ body {
     background: #ffffff;
 }
 
-/* Marcador NÃO PUBLICADO */
+
 .marcador-nao-publicado {
     background-color: #ff8d36;
     color: white;
@@ -50,7 +50,7 @@ body {
     margin-bottom: 5px;
 }
 
-/* Botões */
+
 .botoes {
     display: flex;
     margin-top: 10px;
