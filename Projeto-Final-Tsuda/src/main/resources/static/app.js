@@ -163,7 +163,7 @@ function verificarModoEdicao() {
     }
 }
 
-// Função para salvar publicação (ADDTEXTO.HTML)
+// Função para salvar publicação (ADDTEXTO.HTML) - CORRIGIDA
 async function salvarPublicacao() {
     if (salvando) {
         console.log('Já está salvando...');
@@ -194,10 +194,14 @@ async function salvarPublicacao() {
             return;
         }
 
+        // 🔥 CORREÇÃO: Garantir que a data seja tratada corretamente
+        // Adicionar horário para evitar problemas de fuso horário
+        const dataComHorario = data + 'T12:00:00'; // Meio-dia para evitar problemas de fuso
+
         const publicacao = {
             titulo: titulo,
             autor: autor,
-            dataPublicacao: data,
+            dataPublicacao: dataComHorario, // 🔥 Usar data com horário
             conteudo: conteudo
         };
 
@@ -212,7 +216,7 @@ async function salvarPublicacao() {
             // EDIÇÃO - PUT
             url = `${API_URL}/${id}`;
             method = 'PUT';
-            publicacao.id = parseInt(id); // Adicionar ID para edição
+            publicacao.id = parseInt(id);
         }
 
         console.log('Enviando para API:', { method, url, publicacao });
@@ -249,7 +253,6 @@ async function salvarPublicacao() {
         salvando = false;
     }
 }
-
 // ========== INICIALIZAÇÃO PARA AMBAS PÁGINAS ==========
 
 function inicializarApp() {

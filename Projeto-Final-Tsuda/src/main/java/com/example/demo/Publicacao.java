@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,7 +24,7 @@ public class Publicacao {
     private String autor;
     
     @Column(name = "data_publicacao")
-    private LocalDate dataPublicacao;
+    private Date dataPublicacao;
     
     @Column(columnDefinition = "TEXT")
     private String conteudo;
@@ -33,7 +33,7 @@ public class Publicacao {
 
       public Publicacao() {}
 
-      public Publicacao(String titulo, String autor, LocalDate dataPublicacao, String conteudo, boolean publicado) {
+      public Publicacao(String titulo, String autor, Date dataPublicacao, String conteudo, boolean publicado) {
         this.titulo = titulo;
         this.autor = autor;
         this.dataPublicacao = dataPublicacao;
@@ -51,8 +51,8 @@ public class Publicacao {
     public String getAutor() { return autor; }
     public void setAutor(String autor) { this.autor = autor; }
     
-    public LocalDate getDataPublicacao() { return dataPublicacao; }
-    public void setDataPublicacao(LocalDate dataPublicacao) { this.dataPublicacao = dataPublicacao; }
+    public Date getDataPublicacao() { return dataPublicacao; }
+    public void setDataPublicacao(Date dataPublicacao) { this.dataPublicacao = dataPublicacao; }
 
      public String getConteudo() { return conteudo; }
     public void setConteudo(String conteudo) { this.conteudo = conteudo; }

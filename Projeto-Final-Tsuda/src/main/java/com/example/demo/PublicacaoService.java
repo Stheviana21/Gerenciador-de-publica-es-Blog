@@ -22,7 +22,7 @@ public class PublicacaoService {
 
     public Publicacao findById(Long id) {
         Optional<Publicacao> publicacao = publicacaoRepository.findById(id);
-        return publicacao.orElse(null); // Retorna null se não encontrar
+        return publicacao.orElse(null); 
     }
 
     public Publicacao update(Long id, Publicacao publicacaoAtualizada) {
