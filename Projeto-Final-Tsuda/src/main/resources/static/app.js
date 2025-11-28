@@ -248,7 +248,7 @@ async function salvarPublicacao() {
     } catch (error) {
         console.error('Erro ao salvar:', error);
         alert('Erro ao salvar: ' + error.message);
-        salvando = false; // 🔥 IMPORTANTE: reativar o botão em caso de erro
+        salvando = false; 
     }
 }
 
@@ -262,20 +262,15 @@ function handleFormSubmit(event) {
 // ========== INICIALIZAÇÃO PARA AMBAS PÁGINAS ==========
 
 function inicializarApp() {
-    console.log('🚀 Inicializando aplicação...');
-
-    // EVENTOS PARA INDEX.HTML
     if (document.getElementById('lista-publicacoes')) {
-        console.log('📝 Carregando publicações para index.html...');
         mostrarPublicacoes();
     }
 
-    // EVENTOS PARA ADDTEXTO.HTML
+    
     const formPublicacao = document.getElementById('form-publicacao');
     if (formPublicacao) {
         console.log('📋 Inicializando formulário para addtexto.html...');
 
-        // 🔥 CORREÇÃO: Configurar evento do formulário APENAS UMA VEZ
         if (!eventoRegistrado) {
             formPublicacao.addEventListener('submit', handleFormSubmit);
             eventoRegistrado = true;
