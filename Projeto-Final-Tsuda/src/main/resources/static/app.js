@@ -53,7 +53,7 @@ async function mostrarPublicacoes() {
             <p><strong>Autor:</strong> ${publicacao.autor}</p>
             <p><strong>Publicado em:</strong> ${new Date(publicacao.dataPublicacao).toLocaleDateString("pt-BR")}</p>
             ${isNaoPublicado ? '<span class="marcador-nao-publicado">NÃO PUBLICADO</span>' : ''}
-            <p>${publicacao.texto}</p> <!-- CORRIGIDO: use 'texto' em vez de 'conteudo' -->
+            <p>${publicacao.conteudo}</p>
             <div class="botoes">
                 <button class="botao-alterar" data-id="${publicacao.id}">Alterar</button>
                 <button class="botao-excluir" data-id="${publicacao.id}">Excluir</button>
@@ -69,14 +69,14 @@ async function mostrarPublicacoes() {
 // Função para adicionar event listeners aos botões
 function adicionarEventListeners() {
     document.querySelectorAll('.botao-excluir').forEach(botao => {
-        botao.addEventListener('click', function() {
+        botao.addEventListener('click', function () {
             const id = this.getAttribute('data-id');
             excluirPublicacao(id);
         });
     });
 
     document.querySelectorAll('.botao-alterar').forEach(botao => {
-        botao.addEventListener('click', function() {
+        botao.addEventListener('click', function () {
             const id = this.getAttribute('data-id');
             window.location.href = `addtexto.html?id=${id}`;
         });
@@ -90,7 +90,7 @@ async function excluirPublicacao(id) {
             const response = await fetch(`${API_URL}/${id}`, {
                 method: 'DELETE'
             });
-            
+
             if (response.ok) {
                 alert('Excluído com sucesso!');
                 mostrarPublicacoes();
@@ -115,7 +115,7 @@ async function carregarDadosPublicacao(id) {
     try {
         console.log('Carregando dados para ID:', id);
         const response = await fetch(`${API_URL}/${id}`);
-        
+
         if (!response.ok) throw new Error('Publicação não encontrada');
 
         const publicacao = await response.json();
@@ -124,20 +124,20 @@ async function carregarDadosPublicacao(id) {
         // Preencher formulário com os dados
         document.getElementById('titulo').value = publicacao.titulo;
         document.getElementById('autor').value = publicacao.autor;
-        
+
         // Formatar data para o input (yyyy-MM-dd)
         const dataPublicacao = new Date(publicacao.dataPublicacao);
         const dataFormatada = dataPublicacao.toISOString().split('T')[0];
         document.getElementById('data').value = dataFormatada;
-        
-        document.getElementById('conteudo').value = publicacao.texto; // CORRIGIDO: use 'texto'
+
+        document.getElementById('conteudo').value = publicacao.conteudo;
 
         // Atualizar interface para modo edição
         document.getElementById('titulo-formulario').textContent = `Alterar Publicação - ID ${id}`;
         document.getElementById('botao-salvar').textContent = 'Salvar Alterações';
 
         postAtualId = id;
-        
+
         console.log('Formulário preenchido com sucesso!');
 
     } catch (error) {
@@ -169,7 +169,7 @@ async function salvarPublicacao() {
         console.log('Já está salvando...');
         return;
     }
-    
+
     salvando = true;
     console.log('Iniciando salvamento...');
 
@@ -198,7 +198,7 @@ async function salvarPublicacao() {
             titulo: titulo,
             autor: autor,
             dataPublicacao: data,
-            texto: conteudo // CORRIGIDO: use 'texto' em vez de 'conteudo'
+            conteudo: conteudo
         };
 
         // Verificar se é edição ou criação
@@ -219,7 +219,7 @@ async function salvarPublicacao() {
 
         const response = await fetch(url, {
             method: method,
-            headers: { 
+            headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
@@ -265,11 +265,11 @@ function inicializarApp() {
     const formPublicacao = document.getElementById('form-publicacao');
     if (formPublicacao) {
         console.log('📋 Inicializando formulário para addtexto.html...');
-        
+
         // Configurar evento do formulário UMA VEZ
         formPublicacao.removeEventListener('submit', handleFormSubmit);
         formPublicacao.addEventListener('submit', handleFormSubmit);
-        
+
         // Verificar modo edição
         verificarModoEdicao();
     }
