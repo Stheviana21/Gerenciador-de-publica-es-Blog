@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PublicacaoService {
 
-      @Autowired
+    @Autowired
     private PublicacaoRepository publicacaoRepository;
 
     public List<Publicacao> findAll() {
@@ -20,9 +20,14 @@ public class PublicacaoService {
         return publicacaoRepository.save(publicacao);
     }
 
+    public Publicacao findById(Long id) {
+        Optional<Publicacao> publicacao = publicacaoRepository.findById(id);
+        return publicacao.orElse(null); // Retorna null se não encontrar
+    }
+
     public Publicacao update(Long id, Publicacao publicacaoAtualizada) {
         Optional<Publicacao> publicacaoExistente = publicacaoRepository.findById(id);
-        
+
         if (publicacaoExistente.isPresent()) {
             Publicacao publicacao = publicacaoExistente.get();
             publicacao.setTitulo(publicacaoAtualizada.getTitulo());
@@ -30,7 +35,7 @@ public class PublicacaoService {
             publicacao.setDataPublicacao(publicacaoAtualizada.getDataPublicacao());
             publicacao.setConteudo(publicacaoAtualizada.getConteudo());
             publicacao.setPublicado(publicacaoAtualizada.isPublicado());
-            
+
             return publicacaoRepository.save(publicacao);
         } else {
             throw new RuntimeException("Publicação não encontrada com id: " + id);

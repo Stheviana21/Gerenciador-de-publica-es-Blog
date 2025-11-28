@@ -25,6 +25,16 @@ public class PublicacaoController {
         return publicacaoService.findAll();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Publicacao> getPublicacaoById(@PathVariable Long id) {
+        Publicacao publicacao = publicacaoService.findById(id);
+        if (publicacao != null) {
+            return ResponseEntity.ok(publicacao);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PostMapping
     public Publicacao createPublicacao(@RequestBody Publicacao publicacao) {
         return publicacaoService.save(publicacao);

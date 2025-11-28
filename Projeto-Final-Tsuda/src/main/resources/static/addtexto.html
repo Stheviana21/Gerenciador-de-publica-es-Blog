@@ -10,52 +10,54 @@
 
 <body>
 
-<div class="caixa-principal">
-    <h2 class="titulo-blog">Blog</h2>
+    <div class="caixa-principal">
+        <h2 class="titulo-blog">Blog</h2>
 
-    <div class="formulario">
-        <h3 class="titulo-formulario">Incluir nova publicação</h3>
+        <div class="formulario">
+            <h3 class="titulo-formulario" id="titulo-formulario">Incluir nova publicação</h3>
 
-        <form id="form-publicacao">
-            <label>Título</label>
-            <input type="text" class="campo" id="titulo" required>
+            <form id="form-publicacao">
+                <label>Título</label>
+                <input type="text" class="campo" id="titulo" required>
 
-            <label>Autor</label>
-            <input type="text" class="campo" id="autor" required>
+                <label>Autor</label>
+                <input type="text" class="campo" id="autor" required>
 
-            <label>Data de publicação</label>
-            <input type="date" class="campo" id="data" required>
+                <label>Data de publicação</label>
+                <input type="date" class="campo" id="data" required>
 
 
-            <label>Texto</label>
-            <textarea class="campo-texto" id="conteudo" required></textarea>
+                <label>Texto</label>
+                <textarea class="campo-texto" id="conteudo" required></textarea>
 
-            <div class="centralizar">
-                <button type="submit" class="botao-salvar">Salvar</button>
-                <button type="button" class="botao-cancelar" onclick="voltarParaLista()">Cancelar</button>
-            </div>
-        </form>
+                <div class="centralizar">
+                    <button type="submit" class="botao-salvar" id="botao-salvar">Salvar</button>
+                    <button type="button" class="botao-cancelar" onclick="voltarParaLista()">Cancelar</button>
+                </div>
+
+            </form>
+        </div>
+
     </div>
 
-</div>
+    <footer class="rodape">
+        Ana Julia Ferreira / Sthephany Viana / 3A / 2025 Noturno
+    </footer>
 
-<footer class="rodape">
-    Ana Julia Ferreira / Sthephany Viana / 3A / 2025 Noturno
-</footer>
+    <script src="app.js"></script>
+    <script>
+        // Função para voltar para a lista
+        function voltarParaLista() {
+            window.location.href = 'index.html';
+        }
 
-<script src="app.js"></script>
-<script>
-    // Função para voltar para a lista
-    function voltarParaLista() {
-        window.location.href = 'index.html';
-    }
-
-    // Quando o formulário for enviado
-    document.getElementById('form-publicacao').addEventListener('submit', function(event) {
-        event.preventDefault(); // Impede o envio normal do formulário
-        salvarPublicacao(); // Chama a função de salvar
-    });
-</script>
+        // Quando o formulário for enviado
+        document.getElementById('form-publicacao').addEventListener('submit', function (event) {
+            event.preventDefault(); // Impede o envio normal do formulário
+            salvarPublicacao(); // Chama a função de salvar
+        });
+    </script>
 
 </body>
+
 </html>
