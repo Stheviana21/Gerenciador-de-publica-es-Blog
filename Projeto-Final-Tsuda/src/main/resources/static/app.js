@@ -1,7 +1,8 @@
 // app.js - ARQUIVO ÚNICO PARA AMBAS AS PÁGINAS
-const API_URL = 'http://localhost:8080/api/publicacoes'; // CORRIGIDO: use '/blog' em vez de '/api/publicacoes'
+const API_URL = 'http://localhost:8080/api/publicacoes';
 let salvando = false;
 let postAtualId = null;
+let eventoRegistrado = false; // 🔥 NOVO: controle para evitar duplicação
 
 // ========== FUNÇÕES PARA INDEX.HTML ==========
 
@@ -163,10 +164,8 @@ function verificarModoEdicao() {
     }
 }
 
-// Função para salvar publicação (ADDTEXTO.HTML) - CORRIGIDA
 async function salvarPublicacao() {
     if (salvando) {
-        console.log('Já está salvando...');
         return;
     }
 
@@ -194,14 +193,13 @@ async function salvarPublicacao() {
             return;
         }
 
-        // 🔥 CORREÇÃO: Garantir que a data seja tratada corretamente
-        // Adicionar horário para evitar problemas de fuso horário
-        const dataComHorario = data + 'T12:00:00'; // Meio-dia para evitar problemas de fuso
+        // Garantir que a data seja tratada corretamente
+        const dataComHorario = data + 'T12:00:00';
 
         const publicacao = {
             titulo: titulo,
             autor: autor,
-            dataPublicacao: dataComHorario, // 🔥 Usar data com horário
+            dataPublicacao: dataComHorario,
             conteudo: conteudo
         };
 
@@ -237,9 +235,10 @@ async function salvarPublicacao() {
             const mensagem = id ? 'Publicação atualizada com sucesso!' : 'Publicação salva com sucesso!';
             alert(mensagem);
 
+
             setTimeout(() => {
                 window.location.href = 'index.html';
-            }, 1000);
+            }, 500);
 
         } else {
             const errorText = await response.text();
@@ -249,10 +248,17 @@ async function salvarPublicacao() {
     } catch (error) {
         console.error('Erro ao salvar:', error);
         alert('Erro ao salvar: ' + error.message);
-    } finally {
-        salvando = false;
+        salvando = false; // 🔥 IMPORTANTE: reativar o botão em caso de erro
     }
 }
+
+// 🔥 CORREÇÃO: Handler específico para evitar duplicação
+function handleFormSubmit(event) {
+    event.preventDefault();
+    console.log('Formulário submetido - salvando publicação');
+    salvarPublicacao();
+}
+
 // ========== INICIALIZAÇÃO PARA AMBAS PÁGINAS ==========
 
 function inicializarApp() {
@@ -269,20 +275,16 @@ function inicializarApp() {
     if (formPublicacao) {
         console.log('📋 Inicializando formulário para addtexto.html...');
 
-        // Configurar evento do formulário UMA VEZ
-        formPublicacao.removeEventListener('submit', handleFormSubmit);
-        formPublicacao.addEventListener('submit', handleFormSubmit);
+        // 🔥 CORREÇÃO: Configurar evento do formulário APENAS UMA VEZ
+        if (!eventoRegistrado) {
+            formPublicacao.addEventListener('submit', handleFormSubmit);
+            eventoRegistrado = true;
+            console.log('✅ Evento de submit registrado UMA VEZ');
+        }
 
         // Verificar modo edição
         verificarModoEdicao();
     }
-}
-
-// Handler específico para evitar duplicação
-function handleFormSubmit(event) {
-    event.preventDefault();
-    console.log('Formulário submetido');
-    salvarPublicacao();
 }
 
 // Iniciar a aplicação quando o DOM estiver pronto
