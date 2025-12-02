@@ -161,13 +161,10 @@ function verificarModoEdicao() {
     }
 }
 
+// NOVA VERSÃO da função salvarPublicacao() - SEM GlobalExceptionHandler
 async function salvarPublicacao() {
-    if (salvando) {
-        return;
-    }
-
+    if (salvando) return;
     salvando = true;
-    console.log('Iniciando salvamento...');
 
     try {
         const titulo = document.getElementById('titulo').value;
@@ -177,9 +174,21 @@ async function salvarPublicacao() {
 
         console.log('Dados do formulário:', { titulo, autor, data, conteudo });
 
-        // Validar campos
+        // Validações frontend (mantenha)
         if (!titulo || !autor || !data || !conteudo) {
             alert('Preencha todos os campos!');
+            salvando = false;
+            return;
+        }
+
+        if (titulo.length < 5) {
+            alert('Título deve ter no mínimo 5 caracteres!');
+            salvando = false;
+            return;
+        }
+
+        if (autor.length < 3) {
+            alert('Autor deve ter no mínimo 3 caracteres!');
             salvando = false;
             return;
         }
@@ -190,7 +199,7 @@ async function salvarPublicacao() {
             return;
         }
 
-        // Garantir que a data seja tratada corretamente
+        // Formatar data
         const dataComHorario = data + 'T12:00:00';
 
         const publicacao = {
@@ -200,7 +209,7 @@ async function salvarPublicacao() {
             conteudo: conteudo
         };
 
-        // Verificar se é edição ou criação
+        // Verificar se é edição
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
 
@@ -208,11 +217,12 @@ async function salvarPublicacao() {
         let method = 'POST';
 
         if (id) {
-            // EDIÇÃO - PUT
             url = `${API_URL}/${id}`;
             method = 'PUT';
-            publicacao.id = parseInt(id);
+            // ⚠️ NÃO ADICIONE: publicacao.id = parseInt(id);
         }
+
+        console.log('Enviando para API:', { method, url, publicacao });
 
         const response = await fetch(url, {
             method: method,
@@ -223,24 +233,41 @@ async function salvarPublicacao() {
             body: JSON.stringify(publicacao)
         });
 
+        console.log('Status da resposta:', response.status);
+
         if (response.ok) {
             const publicacaoSalva = await response.json();
             const mensagem = id ? 'Publicação atualizada com sucesso!' : 'Publicação salva com sucesso!';
             alert(mensagem);
-
 
             setTimeout(() => {
                 window.location.href = 'index.html';
             }, 500);
 
         } else {
-            const errorText = await response.text();
-            throw new Error(`Erro ${response.status}: ${errorText}`);
+            // ⚠️ SEM GlobalExceptionHandler, o erro vem em formato DIFERENTE
+            const errorData = await response.json();
+            console.error('Erro completo do backend:', errorData);
+            
+            // O Spring sem GlobalExceptionHandler retorna objeto com:
+            // timestamp, status, error, message, path
+            let errorMessage = 'Erro ao salvar: ';
+            
+            if (errorData.message) {
+                // Pode vir com detalhes das validações
+                errorMessage += errorData.message;
+            } else if (errorData.error) {
+                errorMessage += errorData.error;
+            } else {
+                errorMessage += 'Dados inválidos. Verifique os campos.';
+            }
+            
+            alert(errorMessage);
         }
 
     } catch (error) {
         console.error('Erro ao salvar:', error);
-        alert('Erro ao salvar: ' + error.message);
+        alert('Erro: ' + error.message);
         salvando = false; 
     }
 }
