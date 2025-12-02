@@ -94,5 +94,94 @@ body {
     font-size: 13px;
     text-align: center;
     width: 360px;
-    
+
+}
+
+/* MODAL DE EXCLUSÃO */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    min-width: 300px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.modal p {
+    color: #666;
+    margin-bottom: 25px;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.modal-botoes {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.modal-btn {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    min-width: 100px;
+}
+
+.btn-cancelar {
+    background-color: #c82333;
+    color: white;
+}
+
+.btn-cancelar:hover {
+    background-color: #dc3545;
+}
+
+.btn-confirmar {
+    background-color: #1383da;
+    color: white;
+}
+
+.btn-confirmar:hover {
+    background-color: #127bd6;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+    .modal {
+        padding: 20px;
+        margin: 20px;
+    }
+
+    .modal-botoes {
+        flex-direction: column;
+    }
+
+    .modal-btn {
+        width: 100%;
+    }
 }

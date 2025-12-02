@@ -2,7 +2,86 @@
 const API_URL = 'http://localhost:8080/api/publicacoes';
 let salvando = false;
 let postAtualId = null;
-let eventoRegistrado = false; 
+let eventoRegistrado = false;
+
+async function excluirPublicacao(id, titulo) {
+    // Mostrar modal personalizado
+    const modal = `
+        <div class="modal-overlay" id="modal-exclusao">
+            <div class="modal">
+                <h3>Confirmar exclusão</h3>
+                <p>Deseja excluir "${titulo || 'esta publicação'}"?</p>
+                <div class="modal-botoes">
+                    <button id="btn-confirmar" class="modal-btn btn-confirmar">SIM</button>
+                    <button id="btn-cancelar" class="modal-btn btn-cancelar">NÃO</button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Adicionar modal ao body
+    document.body.insertAdjacentHTML('beforeend', modal);
+
+    // Retornar uma Promise
+    return new Promise((resolve) => {
+        // Botão NÃO
+        document.getElementById('btn-cancelar').addEventListener('click', () => {
+            fecharModal();
+            resolve(false);
+        });
+
+        // Botão SIM
+        document.getElementById('btn-confirmar').addEventListener('click', async () => {
+            fecharModal();
+
+            try {
+                const response = await fetch(`${API_URL}/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    alert('Excluído com sucesso!');
+                    mostrarPublicacoes();
+                    resolve(true);
+                } else {
+                    throw new Error('Erro ao excluir: ' + response.status);
+                }
+            } catch (error) {
+                alert('Erro ao excluir: ' + error.message);
+                resolve(false);
+            }
+        });
+
+        // Fechar modal ao clicar fora
+        document.getElementById('modal-exclusao').addEventListener('click', (e) => {
+            if (e.target.id === 'modal-exclusao') {
+                fecharModal();
+                resolve(false);
+            }
+        });
+    });
+
+    function fecharModal() {
+        const modal = document.getElementById('modal-exclusao');
+        if (modal) modal.remove();
+    }
+}
+
+// Modifique seu adicionarEventListeners() para:
+function adicionarEventListeners() {
+    document.querySelectorAll('.botao-excluir').forEach(botao => {
+        botao.addEventListener('click', async function () {
+            const id = this.getAttribute('data-id');
+            const titulo = this.getAttribute('data-titulo') || 'Publicação';
+
+            // Usa o modal personalizado
+            const confirmado = await excluirPublicacao(id, titulo);
+            console.log('Exclusão confirmada?', confirmado);
+        });
+    });
+
+    // ... restante do código dos botões de alterar
+}
 
 
 // Função para carregar publicações da API
@@ -62,11 +141,10 @@ async function mostrarPublicacoes() {
         container.appendChild(div);
     });
 
-    // Adicionar event listeners aos botões após criar os elementos
     adicionarEventListeners();
 }
 
-// Função para adicionar event listeners aos botões
+// Função para adicionar event aos botões
 function adicionarEventListeners() {
     document.querySelectorAll('.botao-excluir').forEach(botao => {
         botao.addEventListener('click', function () {
@@ -84,31 +162,31 @@ function adicionarEventListeners() {
 }
 
 // Função para excluir publicação
-async function excluirPublicacao(id) {
-    if (confirm('Tem certeza que quer excluir?')) {
-        try {
-            const response = await fetch(`${API_URL}/${id}`, {
-                method: 'DELETE'
-            });
+// async function excluirPublicacao(id) {
+//     if (confirm('Tem certeza que quer excluir?')) {
+//         try {
+//             const response = await fetch(`${API_URL}/${id}`, {
+//                 method: 'DELETE'
+//             });
 
-            if (response.ok) {
-                alert('Excluído com sucesso!');
-                mostrarPublicacoes();
-            } else {
-                throw new Error('Erro ao excluir: ' + response.status);
-            }
-        } catch (error) {
-            alert('Erro ao excluir: ' + error.message);
-        }
-    }
-}
+//             if (response.ok) {
+//                 alert('Excluído com sucesso!');
+//                 mostrarPublicacoes();
+//             } else {
+//                 throw new Error('Erro ao excluir: ' + response.status);
+//             }
+//         } catch (error) {
+//             alert('Erro ao excluir: ' + error.message);
+//         }
+//     }
+// }
 
 // Função para voltar para lista
 function voltarParaLista() {
     window.location.href = 'index.html';
 }
 
-// Função para carregar dados da publicação (ADDTEXTO.HTML)
+// Função para carregar dados da publicação
 async function carregarDadosPublicacao(id) {
     try {
         console.log('Carregando dados para ID:', id);
@@ -161,7 +239,7 @@ function verificarModoEdicao() {
     }
 }
 
-// NOVA VERSÃO da função salvarPublicacao() - SEM GlobalExceptionHandler
+
 async function salvarPublicacao() {
     if (salvando) return;
     salvando = true;
@@ -174,7 +252,7 @@ async function salvarPublicacao() {
 
         console.log('Dados do formulário:', { titulo, autor, data, conteudo });
 
-        // Validações frontend (mantenha)
+        // Validações frontend 
         if (!titulo || !autor || !data || !conteudo) {
             alert('Preencha todos os campos!');
             salvando = false;
@@ -219,7 +297,7 @@ async function salvarPublicacao() {
         if (id) {
             url = `${API_URL}/${id}`;
             method = 'PUT';
-            // ⚠️ NÃO ADICIONE: publicacao.id = parseInt(id);
+
         }
 
         console.log('Enviando para API:', { method, url, publicacao });
@@ -245,34 +323,33 @@ async function salvarPublicacao() {
             }, 500);
 
         } else {
-            // ⚠️ SEM GlobalExceptionHandler, o erro vem em formato DIFERENTE
+
             const errorData = await response.json();
             console.error('Erro completo do backend:', errorData);
-            
-            // O Spring sem GlobalExceptionHandler retorna objeto com:
-            // timestamp, status, error, message, path
+
+
             let errorMessage = 'Erro ao salvar: ';
-            
+
             if (errorData.message) {
-                // Pode vir com detalhes das validações
+
                 errorMessage += errorData.message;
             } else if (errorData.error) {
                 errorMessage += errorData.error;
             } else {
                 errorMessage += 'Dados inválidos. Verifique os campos.';
             }
-            
+
             alert(errorMessage);
         }
 
     } catch (error) {
         console.error('Erro ao salvar:', error);
         alert('Erro: ' + error.message);
-        salvando = false; 
+        salvando = false;
     }
 }
 
-// 🔥 CORREÇÃO: Handler específico para evitar duplicação
+
 function handleFormSubmit(event) {
     event.preventDefault();
     console.log('Formulário submetido - salvando publicação');
@@ -286,7 +363,7 @@ function inicializarApp() {
         mostrarPublicacoes();
     }
 
-    
+
     const formPublicacao = document.getElementById('form-publicacao');
     if (formPublicacao) {
         console.log('📋 Inicializando formulário para addtexto.html...');
