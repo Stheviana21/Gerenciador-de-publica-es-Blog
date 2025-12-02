@@ -2,9 +2,8 @@
 const API_URL = 'http://localhost:8080/api/publicacoes';
 let salvando = false;
 let postAtualId = null;
-let eventoRegistrado = false; // 🔥 NOVO: controle para evitar duplicação
+let eventoRegistrado = false; 
 
-// ========== FUNÇÕES PARA INDEX.HTML ==========
 
 // Função para carregar publicações da API
 async function carregarPublicacoes() {
@@ -103,8 +102,6 @@ async function excluirPublicacao(id) {
         }
     }
 }
-
-// ========== FUNÇÕES PARA ADDTEXTO.HTML ==========
 
 // Função para voltar para lista
 function voltarParaLista() {
@@ -217,8 +214,6 @@ async function salvarPublicacao() {
             publicacao.id = parseInt(id);
         }
 
-        console.log('Enviando para API:', { method, url, publicacao });
-
         const response = await fetch(url, {
             method: method,
             headers: {
@@ -227,8 +222,6 @@ async function salvarPublicacao() {
             },
             body: JSON.stringify(publicacao)
         });
-
-        console.log('Resposta da API:', response.status);
 
         if (response.ok) {
             const publicacaoSalva = await response.json();

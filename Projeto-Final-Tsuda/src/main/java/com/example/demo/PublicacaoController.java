@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*")
 public class PublicacaoController {
 
-    @Autowired
+    @Autowired 
     private PublicacaoService publicacaoService; 
 
     @GetMapping
@@ -27,7 +27,7 @@ public class PublicacaoController {
         return publicacaoService.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") //buscando por id 
     public ResponseEntity<Publicacao> getPublicacaoById(@PathVariable Long id) {
         Publicacao publicacao = publicacaoService.findById(id);
         if (publicacao != null) {
@@ -35,19 +35,19 @@ public class PublicacaoController {
         } else {
             return ResponseEntity.notFound().build();
         }
-    }
+    } 
 
-    @PostMapping
+    @PostMapping //salvando
     public Publicacao createPublicacao(@RequestBody Publicacao publicacao) {
         return publicacaoService.save(publicacao);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}") //editando
     public Publicacao updatePublicacao(@PathVariable Long id, @RequestBody Publicacao publicacao) {
         return publicacaoService.update(id, publicacao);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") //deletando
     public ResponseEntity<?> deletePublicacao(@PathVariable Long id) {
         publicacaoService.delete(id);
         return ResponseEntity.ok().build();

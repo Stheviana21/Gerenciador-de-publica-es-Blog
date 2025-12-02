@@ -9,7 +9,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-@Entity
+// banco de dados 
+
+@Entity  
 @Table(name="publicacoes")
 public class Publicacao {
 
@@ -29,9 +31,10 @@ public class Publicacao {
     @Column(columnDefinition = "TEXT")
     private String conteudo;
     
+    // é cara saber se ter o tag de publicado ou nao 
      private boolean publicado;
 
-      public Publicacao() {}
+      public Publicacao() {} //se nao 
 
       public Publicacao(String titulo, String autor, Date dataPublicacao, String conteudo, boolean publicado) {
         this.titulo = titulo;
@@ -41,6 +44,8 @@ public class Publicacao {
         this.publicado = publicado;
     }
     
+    // pegar as informaçoes e colocar no banco 
+
     // Getters e Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
